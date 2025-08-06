@@ -1,0 +1,34 @@
+{
+  "name": "hilmi-storefront",
+  "version": "1.0.0",
+  "description": "Custom ecommerce storefront with Medusa.js, Next.js, and Fabric.js",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"yarn dev:backend\" \"yarn dev:storefront\"",
+    "dev:backend": "cd backend && yarn dev",
+    "dev:storefront": "cd storefront && yarn dev",
+    "build": "yarn build:backend && yarn build:storefront",
+    "build:backend": "cd backend && yarn build",
+    "build:storefront": "cd storefront && yarn build",
+    "install:all": "yarn install && cd backend && yarn install && cd ../storefront && yarn install",
+    "lint": "cd storefront && yarn lint",
+    "test": "cd backend && yarn test && cd ../storefront && yarn test"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "workspaces": [
+    "backend",
+    "storefront"
+  ],
+  "keywords": [
+    "ecommerce",
+    "medusa",
+    "nextjs",
+    "stripe",
+    "fabric.js",
+    "customization"
+  ],
+  "author": "Hilmi Storefront Team",
+  "license": "MIT"
+}
