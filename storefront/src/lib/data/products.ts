@@ -134,3 +134,29 @@ export const listProductsWithSort = async ({
     queryParams,
   }
 }
+
+export const getProductByHandle = async (
+  handle: string
+): Promise<{ product: HttpTypes.StoreProduct | null }> => {
+  const headers = await getAuthHeaders()
+  const next = await getCacheOptions("products")
+
+  const { products } = await sdk.client.fetch<{
+    products: HttpTypes.StoreProduct[]
+  }>(
+    `/store/products`,
+    {
+      method: "GET",
+      query: {
+        handle,
+      },
+      headers,
+      next,
+      cache: "force-cache",
+    }
+  )
+
+  return {
+    product: products[0] || null,
+  }
+}
