@@ -13,13 +13,13 @@ module.exports = defineConfig({
       cookieSecret: process.env.COOKIE_SECRET || "supersecret",
     }
   },
-  modules: [
-    {
-      resolve: "@medusajs/medusa/payment",
+  modules: {
+    payment: {
+      resolve: "@medusajs/payment",
       options: {
         providers: [
           {
-            resolve: "@medusajs/medusa/payment-stripe",
+            resolve: "@medusajs/payment-stripe",
             id: "stripe",
             options: {
               apiKey: process.env.STRIPE_API_KEY,
@@ -29,5 +29,5 @@ module.exports = defineConfig({
         ],
       },
     },
-  ],
+  },
 })
