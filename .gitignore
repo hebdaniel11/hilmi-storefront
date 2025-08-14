@@ -125,7 +125,7 @@ dist
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
 
-# yarn v3
+# yarn v3 (root and nested workspaces)
 .pnp.*
 .yarn/*
 !.yarn/patches
@@ -134,6 +134,14 @@ dist
 !.yarn/versions
 # Keep repo slim: do not commit Yarn SDKs
 .yarn/sdks/
+
+# nested workspace yarn caches (backend/, storefront/, etc.)
+**/.yarn/*
+!**/.yarn/patches
+!**/.yarn/plugins
+!**/.yarn/releases
+!**/.yarn/versions
+**/.yarn/sdks/
 
 # Vite logs files
 vite.config.js.timestamp-*
