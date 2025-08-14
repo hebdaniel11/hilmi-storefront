@@ -131,10 +131,32 @@ dist
 !.yarn/patches
 !.yarn/plugins
 !.yarn/releases
-!.yarn/sdks
 !.yarn/versions
+# Keep repo slim: do not commit Yarn SDKs
+.yarn/sdks/
 
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .yarn/cache
+
+# macOS / Windows OS junk files
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# IDE/editor settings
+.vscode/
+.idea/
+*.iml
+
+# Hosting/build tools
+.vercel/
+.turbo/
+
+# App-specific generated assets (uploads)
+backend/static/uploads/
+storefront/public/uploads/
