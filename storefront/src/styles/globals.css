@@ -1,3 +1,5 @@
+@import url('https://db.onlinewebfonts.com/c/9364bb5d0a0208501d30df2e274154f0?family=Helvetica+Neue+76+Bold+Italic');
+
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
@@ -56,6 +58,11 @@
 
   .contrast-btn {
     @apply px-4 py-2 border border-black rounded-full hover:bg-black hover:text-white transition-colors duration-200 ease-in;
+  }
+  
+  .font-helvetica-neue-bold {
+    font-family: 'Helvetica Neue', sans-serif;
+    font-weight: bold;
   }
 
   .text-xsmall-regular {

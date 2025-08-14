@@ -125,15 +125,46 @@ dist
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
 
-# yarn v3
+# yarn v3 (root and nested workspaces)
 .pnp.*
 .yarn/*
 !.yarn/patches
 !.yarn/plugins
 !.yarn/releases
-!.yarn/sdks
 !.yarn/versions
+# Keep repo slim: do not commit Yarn SDKs
+.yarn/sdks/
+
+# nested workspace yarn caches (backend/, storefront/, etc.)
+**/.yarn/*
+!**/.yarn/patches
+!**/.yarn/plugins
+!**/.yarn/releases
+!**/.yarn/versions
+**/.yarn/sdks/
 
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+.yarn/cache
+
+# macOS / Windows OS junk files
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# IDE/editor settings
+.vscode/
+.idea/
+*.iml
+
+# Hosting/build tools
+.vercel/
+.turbo/
+
+# App-specific generated assets (uploads)
+backend/static/uploads/
+storefront/public/uploads/
