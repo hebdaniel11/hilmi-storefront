@@ -26,7 +26,7 @@ const ColorSelector: React.FC<ColorSelectorProps> = ({ variants, selectedVariant
               className={`w-10 h-10 rounded-full cursor-pointer border-2 ${
                 selectedVariant.id === variant.id ? "border-black" : "border-gray-200"
               }`}
-              style={{ backgroundColor: variant.metadata?.hex_color || "gray" }}
+              style={{ backgroundColor: (variant.metadata?.hex_color as string) || "gray" }}
               onClick={() => setSelectedVariant(variant)}
               title={colorName}
             />

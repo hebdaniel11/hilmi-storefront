@@ -1,20 +1,20 @@
 // Fabric.js utilities for product customization
 
-import { fabric } from 'fabric'
+import { Canvas, Rect, Text, Image as FabricImage, Object as FabricObject } from 'fabric'
 import type { 
   CustomizationArea, 
   TextCustomization, 
   ImageCustomization,
   CustomizationData 
-} from '../../../shared/types'
-import { CANVAS_CONFIG, PRODUCT_CUSTOMIZATION } from '../../../shared/constants'
+} from '../shared/types'
+import { CANVAS_CONFIG, PRODUCT_CUSTOMIZATION } from '../shared/constants'
 
 export class ProductDesigner {
-  private canvas: fabric.Canvas
+  private canvas: Canvas
   private customizationAreas: CustomizationArea[]
   
   constructor(canvasElement: HTMLCanvasElement, areas: CustomizationArea[] = []) {
-    this.canvas = new fabric.Canvas(canvasElement, {
+    this.canvas = new Canvas(canvasElement, {
       width: CANVAS_CONFIG.DEFAULT_WIDTH,
       height: CANVAS_CONFIG.DEFAULT_HEIGHT,
       backgroundColor: CANVAS_CONFIG.BACKGROUND_COLOR,
@@ -27,7 +27,7 @@ export class ProductDesigner {
   private initializeAreas() {
     // Add customization area overlays
     this.customizationAreas.forEach(area => {
-      const overlay = new fabric.Rect({
+      const overlay = new Rect({
         left: area.x,
         top: area.y,
         width: area.width,
@@ -50,7 +50,7 @@ export class ProductDesigner {
       throw new Error('Invalid area for text customization')
     }
 
-    const textObject = new fabric.Text(text, {
+    const textObject = new Text(text, {
       left: area.x + (options.x || 0),
       top: area.y + (options.y || 0),
       fontFamily: options.font || PRODUCT_CUSTOMIZATION.DEFAULT_FONTS[0],
@@ -76,36 +76,33 @@ export class ProductDesigner {
       throw new Error('Invalid area for image customization')
     }
 
-    return new Promise<fabric.Image>((resolve, reject) => {
-      fabric.Image.fromURL(imageUrl, (img) => {
-        if (!img) {
-          reject(new Error('Failed to load image'))
-          return
-        }
+    return FabricImage.fromURL(imageUrl).then((img) => {
+      if (!img) {
+        throw new Error('Failed to load image')
+      }
 
-        img.set({
-          left: area.x + (options.x || 0),
-          top: area.y + (options.y || 0),
-          scaleX: (options.width || 100) / (img.width || 1),
-          scaleY: (options.height || 100) / (img.height || 1),
-          angle: options.rotation || 0,
-          selectable: true,
-          hasControls: true,
-        })
-
-        // Constrain movement within the area
-        img.on('moving', () => {
-          this.constrainToArea(img, area)
-        })
-
-        this.canvas.add(img)
-        this.canvas.setActiveObject(img)
-        resolve(img)
+      img.set({
+        left: area.x + (options.x || 0),
+        top: area.y + (options.y || 0),
+        scaleX: (options.width || 100) / (img.width || 1),
+        scaleY: (options.height || 100) / (img.height || 1),
+        angle: options.rotation || 0,
+        selectable: true,
+        hasControls: true,
       })
+
+      // Constrain movement within the area
+      img.on('moving', () => {
+        this.constrainToArea(img, area)
+      })
+
+      this.canvas.add(img)
+      this.canvas.setActiveObject(img)
+      return img
     })
   }
 
-  private constrainToArea(object: fabric.Object, area: CustomizationArea) {
+  private constrainToArea(object: FabricObject, area: CustomizationArea) {
     const objBounds = object.getBoundingRect()
     
     // Constrain to area boundaries
@@ -139,7 +136,7 @@ export class ProductDesigner {
         if (!area) return null
 
         if (obj.type === 'text') {
-          const textObj = obj as fabric.Text
+          const textObj = obj as Text
           return {
             area_id: area.id,
             type: 'text' as const,
@@ -153,7 +150,7 @@ export class ProductDesigner {
             }
           }
         } else if (obj.type === 'image') {
-          const imgObj = obj as fabric.Image
+          const imgObj = obj as FabricImage
           return {
             area_id: area.id,
             type: 'image' as const,
@@ -183,6 +180,7 @@ export class ProductDesigner {
     return this.canvas.toDataURL({
       format: 'png',
       quality: 1,
+      multiplier: 1,
     })
   }
 

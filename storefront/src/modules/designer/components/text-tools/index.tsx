@@ -1,11 +1,20 @@
 "use client"
 
-const TextTools = () => {
+import { useState } from "react"
+import { PRODUCT_CUSTOMIZATION } from "../../../../shared/constants"
 
+interface TextToolsProps {
+  onAddText?: () => void
+}
+
+const TextTools: React.FC<TextToolsProps> = ({ onAddText }) => {
   const handleAddText = () => {
-    console.log("Add text button clicked")
-    // In a later step, we will add the logic to add text to the Fabric.js canvas.
+    if (onAddText) {
+      onAddText()
+    }
   }
+
+
 
   return (
     <div>
